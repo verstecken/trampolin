@@ -116,6 +116,9 @@ void draw() {
         pittyCounter = 5;
         timeCounter = 0;
         
+        // SEND MIDI
+        myBus.sendNoteOn(0, 60, 127);
+        
         log.println(lastValues.get(2));
       }
       lastValues.remove(0); 
@@ -158,39 +161,6 @@ void draw() {
     int pitch = 64;
     int velocity = 127;
 
-    
-    if(wert > 16 && wert < 200) {
-      //background(255);
-      
-      //trigger midinote ON
-      /*if(state == 0 && note != midiSequence[round(midiwert)]) {
-        myBus.sendNoteOn(channel, midiSequence[round(midiwert)], velocity); // Send a Midi noteOn
-        state = 1;
-        note = midiSequence[round(midiwert)];
-        println("midi: "+midiSequence[round(midiwert)]);
-      }     
-      
-      //sine.amp(1);
-      //float fre = midiToFreq(midiSequence[round(midiwert)]);
-      //sine.freq(fre);
-      //println(midiwert);
-      textSize(32);
-      text(wert, 10, 30); 
-    } else {
-      sine.amp(0);
-      
-      // trigger midinote OFF
-      if(state == 1) {
-        myBus.sendNoteOff(channel, note, velocity); // Send a Midi nodeOff
-        state = 0;
-      }*/
-      
-      if (note != midiSequence[round(midiwert)]) {
-        //background(255,0,0);
-        note = midiSequence[round(midiwert)];
-        myBus.sendNoteOn(channel, note, velocity);
-      }
-    }
 
 }
 
