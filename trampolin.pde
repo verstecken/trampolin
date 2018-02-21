@@ -45,7 +45,7 @@ PrintWriter log;
 
 void setup() {
 
-    timer = CountdownTimerService.getNewCountdownTimer(this).configure(1, 1000);
+
        
     log = createWriter("jumps.txt");   
     frameRate(rate);
@@ -118,6 +118,8 @@ void draw() {
         
         // SEND MIDI
         myBus.sendNoteOn(0, 60, 127);
+        timer = CountdownTimerService.getNewCountdownTimer(this).configure(300, 300).start();
+        
         
         log.println(lastValues.get(2));
       }
@@ -162,6 +164,10 @@ void draw() {
     int velocity = 127;
 
 
+}
+
+void onFinishEvent(CountdownTimer t) {
+    myBus.sendNoteOff(0, 60, 127);
 }
 
 void keyPressed() {
