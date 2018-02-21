@@ -109,19 +109,19 @@ void draw() {
 
      
     if(lastValues.size() == 5) {
-      if(lastValues.get(0) < lastValues.get(2) && lastValues.get(2) > lastValues.get(4) && pittyCounter <= 0 && wert > 10) {
+      if(lastValues.get(0) < lastValues.get(2) && lastValues.get(2) > lastValues.get(4) && pittyCounter <= 0 && wert > 30) {
         textSize(8);
         text(lastValues.get(2), xPos-1, lastValues.get(2)+20+height/2); // wirklich the highest?
         text(round(timeCounter/rate*100.0)/100.0+" s.", xPos-1, lastValues.get(2)+30+height/2);
         pittyCounter = 5;
         timeCounter = 0;
         
-        // SEND MIDI
+        // SEND MIDI ON
         myBus.sendNoteOn(0, 60, 127);
         timer = CountdownTimerService.getNewCountdownTimer(this).configure(300, 300).start();
         
-        
-        log.println(lastValues.get(2));
+        // write value to jumps.txt
+        log.println(lastValues.get(2)); 
       }
       lastValues.remove(0); 
     }
@@ -142,7 +142,7 @@ void draw() {
     prevWert2 = gwert2;
     
     if(xPos >= width) {
-      saveFrame("jumps_graph-######.png");
+      saveFrame("jumps_graph_"+day()+"."+month()+"_"+hour()+"h"+minute()+"_######.png");
       xPos = 1;
       background(50);
       cycle++;
@@ -170,7 +170,12 @@ void onFinishEvent(CountdownTimer t) {
     myBus.sendNoteOff(0, 60, 127);
 }
 
+void onTickEvent(CountdownTimer t, long timeLeftUntilFinish) {
+    myBus.sendNoteOff(0, 60, 127);
+}
+
 void keyPressed() {
+  saveFrame("jumps_graph_"+day()+"."+month()+"_"+hour()+"h"+minute()+"_######.png");
   log.flush(); // Writes the remaining data to the file
   log.close(); // Finishes the file
   exit(); // Stops the program
